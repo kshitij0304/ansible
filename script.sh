@@ -10,7 +10,7 @@ function1()
         df -h
         ifconfig -a
 }
-if [ $var1 == 5 ]; then
+if [ $var1 -eq 5 ]; then
     echo "The input value is $var1"
 else 
      echo "The value typed is not equal to 5: $var1"
