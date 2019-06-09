@@ -14,13 +14,13 @@ if [ $var1 -eq 5 ]; then
     echo "The input value is $var1"
 else 
      echo "The value typed is not equal to 5: $var1"
-     exit 1
+    
 fi
 
 if [ $choicevalue = "y" -o $choicevalue = "Y" ]; then
      function1
    else  
      echo "Your choice is 'NO'"
-     exit 2
+ 
 fi
          
