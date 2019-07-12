@@ -1,0 +1,32 @@
+---
+ - hosts: group1
+   become: true
+   tasks:
+    - name: Installing multiple package
+      yum: name={{item}} state=installed disable_gpg_check=yes
+      with_items:
+       - httpd
+       - php
+       - mariadb
+      register: httpd_install
+
+    - name: "httpd package validation"
+      command: httpd -v
+      register: httpd_validation
+      when: httpd__install|success
+
+
+    - name: starting httpd
+      service: name=httpd enabled=yes state=started
+      register: httpd_service
+      when: httpd_validation|success
+
+    - name: "copying index file"
+      copy: src=index.html dest=/home/centos/html/index.html
+      when: httpd_validation|success
+
+    - name: restarting httpd
+      service: name=httpd enabled=yes state=restarted
+      when: index_install|success
+
+

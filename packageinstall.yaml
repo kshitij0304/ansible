@@ -1,0 +1,17 @@
+---
+ - hosts:  ansibleclient
+   become:  true
+   vars:
+     Package_Name:  httpd
+     Service_Name:  httpd
+   tasks:
+      - name:  install httpd
+        yum:   name={{Package_Name}} state=installed
+        register: install_output
+
+      - debug: msg=install_output
+
+      - name: starting httpd service
+        service: name-{{ Service_Name }} state=running enabled=true
+        when: install_output|success
+

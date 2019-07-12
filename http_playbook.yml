@@ -1,0 +1,5 @@
+---
+ - hosts: centosclient
+   become: true
+   roles:
+    - httproles
