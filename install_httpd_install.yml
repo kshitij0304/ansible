@@ -1,0 +1,22 @@
+---
+ - hosts: ansibleclient
+   become: true
+   vars:
+     - http_port: 8080
+   tasks:
+    - name: validating httpd package
+      yum: name={{item}} state=latest disable_gpg_check=yes
+      with_items:
+       - httpd
+
+      register: package_log
+
+    - name: "updating httpd conf"
+      template: src=/var/tmp/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
+      notify:
+        - Restart_httpd
+
+   handlers:
+     - name: "Restart_httpd"
+       service: name=httpd state=restarted
+      

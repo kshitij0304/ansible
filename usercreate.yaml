@@ -1,0 +1,14 @@
+---
+ - hosts: centosclient
+   become: true
+   vars_files:
+    - userpar.yml
+    - grppar.yml
+
+
+   tasks:
+    - name: Creating User
+      user: name={{user_name}} password={{user_password|password_hash('sha512')}}shell=/bin/bash
+  
+    - name: Creating group
+      group: name={{group_name}} password={{user_password_hash('sha12)}}shell=/bin/bash

@@ -1,0 +1,24 @@
+---
+ - hosts: group1
+   become: true
+   tasks:
+    - name: Check PHP is installed
+      command: php -v
+      register: php_installed
+      ignore_errors: true
+
+    - name: install php
+      yum: name=php state=installed disable_gpg_check=yes
+      register: php_install_output
+      when: php_installed|failed
+
+    - name: php_installed now
+      debug: msg='php installation is successfull'
+      when: php_install_output|success
+      ignore_errors: true
+
+    - name: php_installed
+      debug: msg='php is already installed'
+      when: php_istalled|success
+
+

@@ -1,0 +1,30 @@
+---
+ - hosts: ansibleclient
+   become: true
+   vars_prompt:
+
+    - name: "user_name"
+      prompt: "Enter the user name:"
+
+    - name: "user_password"
+      prompt: "Enter password"
+      private: yes
+      encrypt: "md5_crypt"
+      confirm: yes
+
+   tasks:
+    - name: Creating user
+      user: name={{user_name}} password={{user_password}} shell=/bin/bash
+[ansadmin@ip-172-31-8-186 ansible]$ cat getting_os_details.yaml
+---
+ - hosts:  group1
+   become:  true
+   tasks:
+
+    - name: Getting OS type
+      command: uname -a|awk '{print $1}'
+      register: command_output
+
+    - set_facts:
+      system_type: command_output_stdout
+

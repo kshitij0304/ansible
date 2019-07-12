@@ -1,0 +1,11 @@
+---
+ - hosts: ansibleclient
+   become: true
+   task:
+
+    - name: installing package
+      yum: name=httpd state=installed
+
+    - name: starting services
+      service: name=httpd state=running enable=true
+

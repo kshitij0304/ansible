@@ -1,0 +1,23 @@
+---
+ - hosts: centosclient
+   become: true
+   tasks:
+
+    - name: Add repo file on the client machine
+      copy: src=/home/ansadmin/ansible/mariadb.repo dest=/etc/yum.repos.d/mariadb.repo  owner=root group=root mode=0644
+
+    - name: validating repo
+      command: yum repolist
+ 
+    - name: Install MariaDB
+      yum: name={{ item }}   state=present
+      with_items:
+       - mariadb-server
+       - MariaDB-client    
+
+    - name: Start and enable service
+      service: name=mysql state=started enabled=yes
+  
+   handlers:
+     - name: restart mysql
+       service: name=mysql state=restarted
